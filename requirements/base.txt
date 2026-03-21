@@ -1,0 +1,50 @@
+# Core Django framework
+Django==5.1.5
+
+# Django REST Framework for API development
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.4.0
+
+# Filtering and CORS
+django-filter==24.3
+django-cors-headers==4.6.0
+
+# Celery for async tasks and scheduling
+django-celery-beat==2.7.0
+celery[redis]==5.4.0
+
+# Image processing (for ImageField)
+Pillow==11.1.0
+
+# Database adapter
+psycopg2-binary==2.9.10
+
+# Redis client
+redis==5.2.1
+
+# WSGI HTTP server for production
+gunicorn==23.0.0
+
+# Environment variable management
+python-decouple==3.8
+
+# Date and time utilities
+python-dateutil==2.9.0
+
+# UUID utilities
+shortuuid==1.0.14
+
+# Markdown support (for rich text fields)
+markdown==3.7
+
+# Phone number validation
+phonenumbers==8.13.52
+
+# HTTP client for external API calls
+requests==2.32.3
+
+# JSON Web Token handling
+PyJWT==2.10.1
+
+# Timezone handling
+pytz==2024.2

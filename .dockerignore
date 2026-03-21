@@ -1,0 +1,89 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Database
+db.sqlite3
+*.db
+
+# Static and media files (will be generated in container)
+/static/
+/staticfiles/
+/media/
+
+# Logs
+*.log
+logs/
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.docker/
+.dockerignore
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+*.bak
+*.backup
+
+# OS specific
+Thumbs.db
+Desktop.ini
+
+# Node (if using for frontend tooling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Celery
+celerybeat-schedule
+celerybeat.pid

@@ -1,0 +1,395 @@
+```mermaid
+classDiagram
+    %% ========================================
+    %% CONTACT MANAGEMENT DOMAIN
+    %% ========================================
+
+    class Contact {
+        +UUID id
+        +String name
+        +String email
+        +String phone
+        +String status
+        +String source
+        +JSONField custom_fields
+        +DateTime created_at
+        +DateTime updated_at
+        +Company company
+        +ManyToMany tags
+        +ManyToMany groups
+        +create()
+        +update()
+        +delete()
+        +add_tag()
+        +remove_tag()
+        +get_interactions()
+    }
+
+    class Company {
+        +UUID id
+        +String name
+        +String domain
+        +String industry
+        +String size
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +update()
+        +get_contacts()
+    }
+
+    class ContactGroup {
+        +UUID id
+        +String name
+        +String description
+        +JSONField filter_criteria
+        +DateTime created_at
+        +DateTime updated_at
+        +ManyToMany contacts
+        +create()
+        +add_contact()
+        +remove_contact()
+        +apply_filters()
+    }
+
+    class Tag {
+        +UUID id
+        +String name
+        +String color
+        +String category
+        +DateTime created_at
+        +create()
+        +get_contacts()
+    }
+
+    class CustomField {
+        +UUID id
+        +String name
+        +String field_type
+        +String entity_type
+        +JSONField options
+        +Boolean required
+        +DateTime created_at
+        +create()
+        +validate_value()
+    }
+
+    class Note {
+        +UUID id
+        +String content
+        +Boolean pinned
+        +DateTime created_at
+        +DateTime updated_at
+        +Contact contact
+        +User author
+        +create()
+        +update()
+        +pin()
+        +unpin()
+    }
+
+    %% ========================================
+    %% COMMUNICATION DOMAIN (ABSTRACT BASE)
+    %% ========================================
+
+    class Communication {
+        <<abstract>>
+        +UUID id
+        +Contact sender
+        +Contact receiver
+        +String status
+        +DateTime timestamp
+        +DateTime created_at
+        +DateTime updated_at
+        +send()
+        +mark_as_read()
+        +get_delivery_status()
+    }
+
+    class EmailMessage {
+        +String subject
+        +String body_html
+        +String body_text
+        +JSONField attachments
+        +JSONField tracking
+        +Boolean opened
+        +Integer open_count
+        +DateTime first_opened_at
+        +send()
+        +track_open()
+        +track_click()
+    }
+
+    class SMSMessage {
+        +String body
+        +String provider_id
+        +String provider_status
+        +send()
+        +get_delivery_report()
+    }
+
+    class WhatsAppMessage {
+        +String body
+        +String media_type
+        +String media_url
+        +String template_id
+        +JSONField template_params
+        +send()
+        +send_template()
+    }
+
+    class ChatMessage {
+        +String body
+        +String room
+        +Boolean read_status
+        +DateTime read_at
+        +send()
+        +mark_as_read()
+    }
+
+    %% ========================================
+    %% CHANNEL & CAMPAIGN DOMAIN
+    %% ========================================
+
+    class Channel {
+        +UUID id
+        +String type
+        +JSONField configuration
+        +JSONField credentials
+        +String status
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +update()
+        +test_connection()
+        +deactivate()
+    }
+
+    class Campaign {
+        +UUID id
+        +String name
+        +String type
+        +JSONField audience
+        +DateTime schedule
+        +String status
+        +JSONField metrics
+        +DateTime created_at
+        +DateTime updated_at
+        +ManyToMany segments
+        +Template template
+        +Channel channel
+        +create()
+        +start()
+        +pause()
+        +stop()
+        +get_metrics()
+    }
+
+    class Template {
+        +UUID id
+        +String name
+        +String channel_type
+        +String content
+        +JSONField variables
+        +Integer version
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +render()
+        +duplicate()
+        +get_variables()
+    }
+
+    %% ========================================
+    %% CRM PIPELINE DOMAIN
+    %% ========================================
+
+    class Pipeline {
+        +UUID id
+        +String name
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +add_stage()
+        +remove_stage()
+        +reorder_stages()
+    }
+
+    class PipelineStage {
+        +UUID id
+        +String name
+        +Integer order
+        +JSONField actions
+        +DateTime created_at
+        +Pipeline pipeline
+        +create()
+        +move_up()
+        +move_down()
+    }
+
+    class Deal {
+        +UUID id
+        +String name
+        +Decimal value
+        +Integer probability
+        +String status
+        +DateTime expected_close_date
+        +DateTime created_at
+        +DateTime updated_at
+        +Contact contact
+        +PipelineStage stage
+        +User owner
+        +create()
+        +move_to_stage()
+        +mark_won()
+        +mark_lost()
+    }
+
+    class Interaction {
+        +UUID id
+        +String type
+        +String notes
+        +DateTime created_at
+        +DateTime updated_at
+        +Contact contact
+        +Channel channel
+        +User agent
+        +create()
+        +update()
+    }
+
+    %% ========================================
+    %% AUTOMATION DOMAIN
+    %% ========================================
+
+    class Automation {
+        +UUID id
+        +String name
+        +String trigger
+        +JSONField conditions
+        +JSONField actions
+        +String status
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +activate()
+        +deactivate()
+        +execute()
+    }
+
+    class Webhook {
+        +UUID id
+        +String url
+        +JSONField events
+        +String secret
+        +String status
+        +DateTime created_at
+        +DateTime updated_at
+        +create()
+        +test()
+        +deactivate()
+        +log_delivery()
+    }
+
+    %% ========================================
+    %% USER & TEAM DOMAIN
+    %% ========================================
+
+    class User {
+        +UUID id
+        +String username
+        +String email
+        +String role
+        +JSONField permissions
+        +DateTime created_at
+        +DateTime last_login
+        +ManyToMany teams
+        +create()
+        +assign_role()
+        +get_permissions()
+    }
+
+    class Team {
+        +UUID id
+        +String name
+        +JSONField permissions
+        +DateTime created_at
+        +DateTime updated_at
+        +ManyToMany members
+        +create()
+        +add_member()
+        +remove_member()
+        +set_permissions()
+    }
+
+    %% ========================================
+    %% AUDIT & LOGGING DOMAIN
+    %% ========================================
+
+    class AuditLog {
+        +UUID id
+        +String action
+        +String entity
+        +JSONField changes
+        +DateTime timestamp
+        +User user
+        +create()
+        +query_by_user()
+        +query_by_entity()
+    }
+
+    %% ========================================
+    %% RELATIONSHIPS
+    %% ========================================
+
+    %% Contact Management
+    Contact "1" --> "*" Note : has
+    Contact "*" --> "1" Company : belongs to
+    Contact "*" <--> "*" Tag : tagged with
+    Contact "*" <--> "*" ContactGroup : member of
+    Contact "1" --> "*" Interaction : has
+    Contact "1" --> "*" Deal : has
+
+    %% Communication
+    Communication <|-- EmailMessage : inherits
+    Communication <|-- SMSMessage : inherits
+    Communication <|-- WhatsAppMessage : inherits
+    Communication <|-- ChatMessage : inherits
+
+    Communication "*" --> "1" Channel : sent via
+    Communication "*" --> "1" Contact : from/to
+
+    %% Campaign & Template
+    Campaign "*" --> "1" Template : uses
+    Campaign "*" --> "1" Channel : sends through
+    Campaign "*" <--> "*" ContactGroup : targets
+
+    %% Pipeline
+    Pipeline "1" --> "*" PipelineStage : contains
+    PipelineStage "1" --> "*" Deal : contains
+    Deal "*" --> "1" Contact : associated with
+    Deal "*" --> "1" User : owned by
+
+    %% Interaction
+    Interaction "*" --> "1" Contact : relates to
+    Interaction "*" --> "1" Channel : via
+    Interaction "*" --> "1" User : performed by
+
+    %% Notes
+    Note "*" --> "1" Contact : belongs to
+    Note "*" --> "1" User : authored by
+
+    %% User & Team
+    User "*" <--> "*" Team : member of
+
+    %% Automation
+    Automation "*" --> "*" Channel : uses
+    Automation "*" --> "*" Template : uses
+
+    %% Audit
+    AuditLog "*" --> "1" User : performed by
+
+    %% Custom Fields
+    CustomField "*" --> "1" Contact : extends
+
+```

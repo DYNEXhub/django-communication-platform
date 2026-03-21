@@ -1,0 +1,24 @@
+# Include base requirements
+-r base.txt
+
+# Cloud storage support (AWS S3, Google Cloud Storage, etc.)
+django-storages==1.14.4
+boto3==1.35.94
+
+# Error tracking and monitoring
+sentry-sdk[django]==2.19.2
+
+# Production database connection pooling
+psycopg2==2.9.10
+
+# Environment-based configuration
+dj-database-url==2.3.0
+
+# Security and SSL
+django-secure==1.0.2
+
+# WhiteNoise for serving static files
+whitenoise==6.8.2
+
+# Health check endpoints
+django-health-check==3.18.3
