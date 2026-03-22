@@ -11,6 +11,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from apps.common.views import dashboard_stats
 
 urlpatterns = [
     # Admin panel
@@ -20,6 +21,9 @@ urlpatterns = [
     path('api/v1/auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/v1/auth/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+
+    # Dashboard
+    path('api/v1/dashboard/stats/', dashboard_stats, name='dashboard_stats'),
 
     # API v1 endpoints
     path('api/v1/accounts/', include('apps.accounts.urls')),
