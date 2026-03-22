@@ -32,7 +32,7 @@ python-decouple==3.8
 python-dateutil==2.9.0
 
 # UUID utilities
-shortuuid==1.0.14
+shortuuid>=1.0.11,<2.0
 
 # Markdown support (for rich text fields)
 markdown==3.7
