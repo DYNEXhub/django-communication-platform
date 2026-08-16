@@ -2,7 +2,7 @@
 -r base.txt
 
 # Debug toolbar for Django
-django-debug-toolbar==4.4.6
+django-debug-toolbar==7.1.0
 
 # Enhanced Python REPL
 ipython==8.30.0
